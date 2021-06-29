@@ -30,6 +30,9 @@ setup(
     author_email="wherejoystarts@gmail.com",
     packages=find_packages(exclude=("tests", "tests.*")),
     include_package_data=True,
+    package_data={
+        "light": ["py.typed"],
+    },
     install_requires=[
         "torch",
         "pytorch-ignite",
