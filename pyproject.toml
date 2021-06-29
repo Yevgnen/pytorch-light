@@ -7,6 +7,7 @@ packages = [ { include = "light" } ]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+torch = "1.9.0"
 
 [tool.poetry.dev-dependencies]
 
