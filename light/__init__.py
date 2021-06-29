@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import light.attention
 import light.masking
 import light.rnn
 import light.utils
