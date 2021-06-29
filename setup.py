@@ -32,6 +32,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "torch",
+        "pytorch-ignite",
     ],
     test_suite="tests",
     zip_safe=False,
