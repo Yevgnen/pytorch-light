@@ -36,6 +36,7 @@ setup(
     install_requires=[
         "torch",
         "pytorch-ignite",
+        "pycarton",
     ],
     test_suite="tests",
     zip_safe=False,

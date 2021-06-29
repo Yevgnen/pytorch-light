@@ -7,6 +7,7 @@ import light.masking
 import light.pooling
 import light.rnn
 import light.scheduled_sampling
+import light.training
 import light.utils
 
 __version__ = "0.0.0"
