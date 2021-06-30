@@ -34,9 +34,10 @@ setup(
         "torchlight": ["py.typed"],
     },
     install_requires=[
-        "torch",
-        "pytorch-ignite",
         "pycarton",
+        "pytorch-ignite",
+        "torch",
+        "transformers",
     ],
     test_suite="tests",
     zip_safe=False,

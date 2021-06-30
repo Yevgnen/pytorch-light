@@ -7,9 +7,10 @@ packages = [ { include = "torchlight" } ]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-torch = "1.9.0"
-pytorch-ignite = "0.4.5"
-pycarton = "0.3.0"
+torch = "^1.9.0"
+pytorch-ignite = "^0.4.5"
+pycarton = "^0.3.0"
+transformers = "^4.8.1"
 
 [tool.poetry.dev-dependencies]
 
