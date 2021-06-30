@@ -18,12 +18,12 @@ def find_version(*paths):
         return match.group("ver")
 
 
-VERSION = find_version("light", "__init__.py")
+VERSION = find_version("torchlight", "__init__.py")
 
 
 setup(
-    name="light",
-    description="Light.",
+    name="torchlight",
+    description="Torchlight.",
     version=VERSION,
     url="https://github.com/Yevgnen/pytorch-light",
     author="Yevgnen Koh",
@@ -31,7 +31,7 @@ setup(
     packages=find_packages(exclude=("tests", "tests.*")),
     include_package_data=True,
     package_data={
-        "light": ["py.typed"],
+        "torchlight": ["py.typed"],
     },
     install_requires=[
         "torch",

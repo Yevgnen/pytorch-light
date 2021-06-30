@@ -12,7 +12,7 @@ from typing import Optional, Type, TypeVar
 from carton.params import Params as ParamDict
 from carton.random import random_state
 
-from light.utils import device
+from torchlight.utils import device
 
 
 class Params(object):

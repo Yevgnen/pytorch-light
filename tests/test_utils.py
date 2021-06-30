@@ -4,7 +4,7 @@ import unittest
 
 import torch
 
-from light.utils import split_tensors
+from torchlight.utils import split_tensors
 
 
 class TestSplitTensors(unittest.TestCase):

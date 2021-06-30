@@ -4,7 +4,7 @@ import unittest
 
 import torch
 
-from light.masking import create_span_mask
+from torchlight.masking import create_span_mask
 
 
 class TestFunction(unittest.TestCase):

@@ -4,7 +4,7 @@ import unittest
 
 import torch
 
-from light.preprocessing import LabelEncoder
+from torchlight.preprocessing import LabelEncoder
 
 
 class TestLabelEncoder(unittest.TestCase):
