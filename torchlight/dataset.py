@@ -4,15 +4,17 @@ from __future__ import annotations
 
 import abc
 import itertools
+import warnings
 from collections.abc import Callable, Iterable, Sequence
-from typing import Any, Optional, TypeVar, cast
+from typing import Any, Optional, TypeVar, Union, cast
 
 import ignite.distributed as idist
 import torch
 from ignite.distributed.auto import DistributedProxySampler
-from torch.utils.data import BatchSampler, Dataset
+from torch.utils.data import BatchSampler, DataLoader, Dataset
 from torch.utils.data import IterableDataset as _IterableDataset
-from torch.utils.data.sampler import RandomSampler, Sampler
+from torch.utils.data.dataset import IterableDataset
+from torch.utils.data.sampler import RandomSampler, Sampler, SequentialSampler
 
 from torchlight.utils import ModeKeys, PhaseMixin
 
@@ -194,3 +196,65 @@ class BucketIterableDataset(IterableDataset):
 
             for batch in _random_access_bucket(bucket, self.batch_size, False):
                 yield from batch
+
+
+def get_sampler(
+    dataset: Dataset, train: bool
+) -> Union[RandomSampler, SequentialSampler]:
+    if train:
+        sampler = RandomSampler(dataset)  # type: ignore
+    else:
+        sampler = SequentialSampler(dataset)  # type: ignore
+
+    return sampler
+
+
+def get_dataloader(
+    dataset: Dataset,
+    collate_fn: Optional[Union[Callable, Collator]] = None,
+    sampler: Optional[Sampler] = None,
+    batch_sampler: Optional[Sampler] = None,
+    sort_key: Optional[Callable] = None,
+    shuffle: bool = False,
+    **kwargs,
+) -> DataLoader:
+    if not isinstance(dataset, IterableDataset):
+        if batch_sampler is None:
+            if sort_key is not None:
+                if isinstance(collate_fn, Collator) and collate_fn.is_train():
+                    warnings.warn(
+                        "`sort_key` is given when `collate_fn.is_train()` is False"
+                    )
+
+                batch_sampler = bucket_batch_sampler(
+                    dataset,  # type: ignore
+                    kwargs["batch_size"],
+                    drop_last=False,
+                    sort_key=sort_key,
+                )
+
+                # When `batch_sampler` is given, `batch_size` must be 1
+                # when initializing `DataLoader`.
+                kwargs["batch_size"] = 1
+                kwargs["batch_sampler"] = batch_sampler
+
+            elif sampler is None:
+                # `sampler` will be wrapped in `idist.auto_dataloader`,
+                # so we dont' need `batch_sampler`.
+                sampler = get_sampler(
+                    dataset,
+                    collate_fn.is_train()
+                    if isinstance(collate_fn, Collator)
+                    else shuffle,
+                )
+
+    kwargs.update(
+        {
+            "collate_fn": collate_fn,
+            "sampler": sampler,
+        }
+    )
+
+    dataloader = idist.auto_dataloader(dataset, **kwargs)  # type: DataLoader[Dataset]
+
+    return dataloader
