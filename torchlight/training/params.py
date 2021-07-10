@@ -31,6 +31,7 @@ class Params(object):
         self.train_data = kwargs.get("train_data")
         self.val_data = kwargs.get("val_data")
         self.test_data = kwargs.get("test_data")
+        self.train_size = kwargs.get("train_size")
         self.val_size = kwargs.get("val_size", 0.1)
         self.test_size = kwargs.get("test_size", 0.2)
         self.max_length = kwargs.get("max_length")
@@ -38,6 +39,8 @@ class Params(object):
         # Training
         self.backend = kwargs.get("backend")
         self.nproc_per_node = kwargs.get("nproc_per_node")
+        self.master_addr = kwargs.get("master_addr")
+        self.master_port = kwargs.get("master_port")
         self.seed = random_state(kwargs.get("seed"))
         save_path = os.getenv("SAVE_PATH")
         if not save_path:
@@ -65,7 +68,6 @@ class Params(object):
         self.pin_memory = kwargs.get("pin_memory", True)
         self.non_blocking = kwargs.get("non_blocking", True)
         self.num_workers = kwargs.get("num_workers", 0)
-        self.eager_encode = kwargs.get("eager_encode", True)
 
         # Checkpoint
         self.save_steps = kwargs.get("save_steps", 1000)
@@ -81,6 +83,7 @@ class Params(object):
             and self.eval_metric is not None
             else 0,
         )
+        self.eval_before_training = kwargs.get("eval_before_training", False)
 
         # Early Stopping
         self.early_stopping = kwargs.get("early_stopping", False)
