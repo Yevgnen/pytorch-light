@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import torchlight.attention
+import torchlight.dataset
 import torchlight.logger
 import torchlight.losses
 import torchlight.masking
