@@ -6,7 +6,7 @@ import enum
 import inspect
 import os
 from collections.abc import Callable, Iterable, Mapping, Sequence
-from typing import TYPE_CHECKING, Optional, Union
+from typing import Optional, Union
 
 import torch
 import torch.nn as nn
@@ -14,9 +14,6 @@ import torch.nn.functional as F
 import torch.optim as optim
 from ignite.handlers.checkpoint import Checkpoint
 from transformers.optimization import AdamW, get_linear_schedule_with_warmup
-
-if TYPE_CHECKING:
-    pass
 
 
 class ModeKeys(str, enum.Enum):
