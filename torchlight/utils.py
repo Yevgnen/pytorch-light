@@ -100,12 +100,30 @@ def check_tensors_dimension(tensors: Iterable[torch.Tensor], dim: int):
         raise ValueError(f"`tensors` must be {dim}d tensors.")
 
 
-def pad_stack_1d(tensors: Sequence[torch.Tensor], length: int) -> torch.Tensor:
+def pad_stack_1d(
+    tensors: Sequence[torch.Tensor],
+    max_length: Optional[int] = None,
+    return_lengths: bool = False,
+) -> Union[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
     # NOTE: Works for 1d tensors with size 0.
 
     check_tensors_dimension(tensors, 1)
 
-    return torch.stack([F.pad(x, [0, length - len(x)]) for x in tensors])
+    if max_length is None:
+        length = torch.tensor([len(x) for x in tensors], dtype=torch.int64)
+        max_length = max(length)
+    else:
+        if return_lengths:
+            raise ValueError(
+                "`return_lengths` must be False when `max_length` is given"
+            )
+
+    tensor = torch.stack([F.pad(x, [0, max_length - len(x)]) for x in tensors])
+
+    if return_lengths:
+        return tensor, length
+
+    return tensor
 
 
 def pad_stack_2d(
