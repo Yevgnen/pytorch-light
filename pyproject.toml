@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytorch-light"
-version = "0.0.0"
+version = "0.1.0"
 description = "Light."
 authors = ["Yevgnen Koh <wherejoystarts@gmail.com>"]
 packages = [ { include = "torchlight" } ]
