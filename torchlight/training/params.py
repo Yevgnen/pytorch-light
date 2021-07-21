@@ -12,7 +12,7 @@ from typing import Optional, Type, TypeVar
 from carton.params import Params as ParamDict
 from carton.random import random_state
 
-from torchlight.utils import device
+from texi.pytorch.utils import device
 
 
 class Params(object):
@@ -39,8 +39,11 @@ class Params(object):
         # Training
         self.backend = kwargs.get("backend")
         self.nproc_per_node = kwargs.get("nproc_per_node")
+        self.nnodes = kwargs.get("nnodes")
+        self.node_rank = kwargs.get("node_rank")
         self.master_addr = kwargs.get("master_addr")
         self.master_port = kwargs.get("master_port")
+        self.init_method = kwargs.get("init_method")
         self.seed = random_state(kwargs.get("seed"))
         save_path = os.getenv("SAVE_PATH")
         if not save_path:

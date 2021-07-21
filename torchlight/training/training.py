@@ -280,8 +280,11 @@ def create_engines(
 def run(fn: Callable, params: Params, *args, **kwargs) -> None:
     with idist.Parallel(
         backend=params.backend,
+        nnodes=params.nnodes,
+        node_rank=params.node_rank,
         nproc_per_node=params.nproc_per_node,
         master_addr=params.master_addr,
         master_port=params.master_port,
+        init_method=params.init_method,
     ) as parallel:
         parallel.run(fn, params, *args, **kwargs)
