@@ -99,8 +99,8 @@ class LabelEncoder(object):
 
         return index
 
-    def decode_label(self, index: Union[int, torch.LongTensor]) -> str:
-        if isinstance(index, torch.LongTensor):
+    def decode_label(self, index: Union[int, torch.Tensor]) -> str:
+        if isinstance(index, torch.Tensor):
             if index.ndim > 0:
                 raise ValueError(
                     f"tensor should be 0-d tensor, got: ndim == {index.ndim}"
@@ -109,7 +109,7 @@ class LabelEncoder(object):
 
         if not isinstance(index, int):
             raise ValueError(
-                "`index` should be int or torch.LongTensor, "
+                "`index` should be int or torch.Tensor, "
                 f"got: {index.__class__.__name__}"
             )
 
@@ -127,8 +127,8 @@ class LabelEncoder(object):
 
         return indices
 
-    def decode(self, indices: Union[torch.LongTensor, Iterable[int]]) -> list[str]:
-        if isinstance(indices, torch.LongTensor):
+    def decode(self, indices: Union[torch.Tensor, Iterable[int]]) -> list[str]:
+        if isinstance(indices, torch.Tensor):
             if indices.ndim != 1:
                 raise ValueError(
                     f"tensor should be 1-d tensor, got: ndim == {indices.ndim}"
