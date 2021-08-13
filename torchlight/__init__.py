@@ -13,4 +13,4 @@ import torchlight.scheduled_sampling
 import torchlight.training
 import torchlight.utils
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
