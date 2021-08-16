@@ -22,7 +22,7 @@ VERSION = find_version("torchlight", "__init__.py")
 
 
 setup(
-    name="torchlight",
+    name="pytorch-light",
     description="Torchlight.",
     version=VERSION,
     url="https://github.com/Yevgnen/pytorch-light",
