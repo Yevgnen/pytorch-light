@@ -50,7 +50,7 @@ def get_event(steps: Union[int, str]) -> CallableEventWithFilter:
 
 
 def handle_collator_mode(engine: Engine, dataset: str, mode: str) -> None:
-    collate_fn = engine.state.dataloader.collate_fn
+    collate_fn = engine.state.dataloader.collate_fn  # type: ignore
 
     if isinstance(collate_fn, Collator):
         if isinstance(mode, ModeKeys):
