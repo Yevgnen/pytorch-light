@@ -5,7 +5,6 @@ import torchlight.dataset
 import torchlight.logger
 import torchlight.losses
 import torchlight.masking
-import torchlight.optim
 import torchlight.pooling
 import torchlight.preprocessing
 import torchlight.rnn
