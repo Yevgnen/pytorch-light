@@ -1,32 +1,33 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import annotations
+
+from typing import Optional
+
+import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
 
-def _init_builder(type_):
-    def __init__(self, *args, **kwargs):
-        super(type(self), self).__init__()
-        self.encoder = type_(*args, **kwargs)
-
-    return __init__
+def get_rnn(cell: str) -> nn.Module:
+    return globals()[cell.upper()]
 
 
-def forward(
-    self,
-    inputs,
-    lengths,
-    batch_first=True,
-    enforce_sorted=False,
-    padding_value=0.0,
-    total_length=None,
-):
-    # ATM `lengths` must be 1d long tensor on CPU.
+def _forward(
+    encoder: nn.Module,
+    input_: torch.Tensor,
+    length: torch.Tensor,
+    batch_first: bool = True,
+    enforce_sorted: bool = False,
+    padding_value: float = 0.0,
+    total_length: Optional[int] = None,
+) -> tuple:
+    # ATM `length` must be 1d long tensor on CPU.
     # https://github.com/pytorch/pytorch/issues/43227
     packed = pack_padded_sequence(
-        inputs, lengths.cpu(), batch_first=batch_first, enforce_sorted=enforce_sorted
+        input_, length.cpu(), batch_first=batch_first, enforce_sorted=enforce_sorted
     )
-    hidden, states = self.encoder(packed)
+    hidden, states = encoder(packed)
     hidden, _ = pad_packed_sequence(
         hidden,
         batch_first=batch_first,
@@ -37,23 +38,76 @@ def forward(
     return hidden, states
 
 
-_recurrent_types = {
-    "RNN": nn.RNN,
-    "GRU": nn.GRU,
-    "LSTM": nn.LSTM,
-}
+class RNN(nn.Module):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__()
+        self.encoder = nn.RNN(*args, **kwargs)
 
-
-def _init():
-    for name, type_ in _recurrent_types.items():
-        class_ = type(
-            name, (nn.Module,), {"__init__": _init_builder(type_), "forward": forward}
+    def forward(
+        self,
+        input_: torch.Tensor,
+        length: torch.Tensor,
+        batch_first: bool = True,
+        enforce_sorted: bool = False,
+        padding_value: float = 0.0,
+        total_length: Optional[int] = None,
+    ) -> tuple:
+        return _forward(
+            self,
+            input_,
+            length,
+            batch_first=batch_first,
+            enforce_sorted=enforce_sorted,
+            padding_value=padding_value,
+            total_length=total_length,
         )
-        globals()[name] = class_
 
 
-_init()
+class GRU(nn.Module):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__()
+        self.encoder = nn.GRU(*args, **kwargs)
+
+    def forward(
+        self,
+        input_: torch.Tensor,
+        length: torch.Tensor,
+        batch_first: bool = True,
+        enforce_sorted: bool = False,
+        padding_value: float = 0.0,
+        total_length: Optional[int] = None,
+    ) -> tuple:
+        return _forward(
+            self,
+            input_,
+            length,
+            batch_first=batch_first,
+            enforce_sorted=enforce_sorted,
+            padding_value=padding_value,
+            total_length=total_length,
+        )
 
 
-def get_rnn(cell: str) -> nn.Module:
-    return globals()[cell.upper()]
+class LSTM(nn.Module):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__()
+        self.encoder = nn.LSTM(*args, **kwargs)
+
+    def forward(
+        self,
+        input_: torch.Tensor,
+        length: torch.Tensor,
+        batch_first: bool = True,
+        enforce_sorted: bool = False,
+        padding_value: float = 0.0,
+        total_length: Optional[int] = None,
+    ) -> tuple:
+        return _forward(
+            self,
+            input_,
+            length,
+            batch_first=batch_first,
+            enforce_sorted=enforce_sorted,
+            padding_value=padding_value,
+            total_length=total_length,
+        )
