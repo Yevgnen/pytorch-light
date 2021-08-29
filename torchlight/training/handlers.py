@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import logging
 import os
 from collections.abc import Callable, Mapping
 from typing import Any, Optional, Union, cast
@@ -29,8 +28,6 @@ from torchlight.dataset import Collator
 from torchlight.logger import setup_tb_logging
 from torchlight.training.params import Params
 from torchlight.utils import ModeKeys
-
-logger = logging.getLogger(__name__)
 
 
 def get_event(steps: Union[int, str]) -> CallableEventWithFilter:
