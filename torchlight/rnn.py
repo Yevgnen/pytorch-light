@@ -53,7 +53,7 @@ class RNN(nn.Module):
         total_length: Optional[int] = None,
     ) -> tuple:
         return _forward(
-            self,
+            self.encoder,
             input_,
             length,
             batch_first=batch_first,
@@ -78,7 +78,7 @@ class GRU(nn.Module):
         total_length: Optional[int] = None,
     ) -> tuple:
         return _forward(
-            self,
+            self.encoder,
             input_,
             length,
             batch_first=batch_first,
@@ -103,7 +103,7 @@ class LSTM(nn.Module):
         total_length: Optional[int] = None,
     ) -> tuple:
         return _forward(
-            self,
+            self.encoder,
             input_,
             length,
             batch_first=batch_first,
