@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import torchlight.training.handlers
-import torchlight.training.params
-import torchlight.training.training
 from torchlight.training.handlers import (
     setup_early_stopping_handler,
     setup_evaluate_handlers,
@@ -26,6 +23,9 @@ from torchlight.training.training import (
 )
 
 __all__ = [
+    "handlers",
+    "params",
+    "training",
     "setup_early_stopping_handler",
     "setup_evaluate_handlers",
     "setup_extra_handlers",
@@ -34,7 +34,8 @@ __all__ = [
     "setup_progress_bar",
     "setup_save_best_model_handler",
     "Params",
-    "Dataflows" "Metrics",
+    "Dataflows",
+    "Metrics",
     "create_engines",
     "create_evaluator",
     "create_evaluators",
