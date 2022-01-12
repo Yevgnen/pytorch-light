@@ -178,7 +178,7 @@ def get_pretrained_optimizer_and_scheduler(
     lr: float,
     weight_decay: float,
     warmup_steps: int,
-    num_training_steps: int,
+    num_training_steps: Union[int, float],
     optimizer_kwargs: Optional[dict] = None,
     scheduler_kwargs: Optional[dict] = None,
 ) -> tuple[optim.Optimizer, optim.lr_scheduler.LambdaLR]:
@@ -187,6 +187,9 @@ def get_pretrained_optimizer_and_scheduler(
 
     if warmup_steps <= 0:
         raise ValueError("`warmup_steps` must be positive")
+
+    if isinstance(warmup_steps, float):
+        warmup_steps = int(warmup_steps * num_training_steps)
 
     if not optimizer_kwargs:
         optimizer_kwargs = {}
