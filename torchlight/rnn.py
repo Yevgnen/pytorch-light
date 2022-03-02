@@ -13,7 +13,7 @@ def get_rnn(cell: str) -> nn.Module:
     return globals()[cell.upper()]
 
 
-def _forward(
+def forward_rnn(
     encoder: nn.Module,
     input_: torch.Tensor,
     length: torch.Tensor,
@@ -52,7 +52,7 @@ class RNN(nn.Module):
         padding_value: float = 0.0,
         total_length: Optional[int] = None,
     ) -> tuple:
-        return _forward(
+        return forward_rnn(
             self.encoder,
             input_,
             length,
@@ -77,7 +77,7 @@ class GRU(nn.Module):
         padding_value: float = 0.0,
         total_length: Optional[int] = None,
     ) -> tuple:
-        return _forward(
+        return forward_rnn(
             self.encoder,
             input_,
             length,
@@ -102,7 +102,7 @@ class LSTM(nn.Module):
         padding_value: float = 0.0,
         total_length: Optional[int] = None,
     ) -> tuple:
-        return _forward(
+        return forward_rnn(
             self.encoder,
             input_,
             length,
