@@ -13,7 +13,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from ignite.handlers.checkpoint import Checkpoint
-from transformers.optimization import AdamW, get_linear_schedule_with_warmup
+from transformers.optimization import get_linear_schedule_with_warmup
 
 
 class ModeKeys(str, enum.Enum):
@@ -216,7 +216,7 @@ def get_pretrained_optimizer_and_scheduler(
             "weight_decay": 0.0,
         },
     ]
-    optimizer = AdamW(optimizer_grouped_parameters, lr=lr, **optimizer_kwargs)
+    optimizer = optim.AdamW(optimizer_grouped_parameters, lr=lr, **optimizer_kwargs)
 
     lr_scheduler = get_linear_schedule_with_warmup(
         optimizer,
