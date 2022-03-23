@@ -16,7 +16,7 @@ from torch.utils.data import IterableDataset as _IterableDataset
 from torch.utils.data.dataset import IterableDataset
 from torch.utils.data.sampler import RandomSampler, Sampler, SequentialSampler
 
-from torchlight.utils import ModeKeys, PhaseMixin
+from torchlight.utils.common import ModeKeys, PhaseMixin
 
 
 class Collator(PhaseMixin, metaclass=abc.ABCMeta):
