@@ -140,7 +140,7 @@ class LabelEncoder(object):
         return labels
 
     def save(self, filename: Union[str, os.PathLike]) -> None:
-        with open(filename, mode="w") as f:
+        with open(filename, mode="w", encoding="utf-8") as f:
             data = {
                 "labels": self.labels,
                 "default": self.default,
@@ -153,7 +153,7 @@ class LabelEncoder(object):
 
     @classmethod
     def load(cls: Type[T], filename: Union[str, os.PathLike]) -> T:
-        with open(filename) as f:
+        with open(filename, encoding="utf-8") as f:
             data = json.load(f)
 
             return cls(data["labels"], default=data["default"])
