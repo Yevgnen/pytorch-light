@@ -26,7 +26,7 @@ from torch.utils.data import DataLoader
 
 from torchlight.training.handlers import handle_collator_mode, setup_extra_handlers
 from torchlight.training.params import Params
-from torchlight.utils.common import ModeKeys
+from torchlight.utils.phase import ModeKeys
 
 logger = logging.getLogger(__name__)
 
