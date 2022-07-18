@@ -37,9 +37,13 @@ def max_pooling(input_: Tensor, mask: Tensor) -> Tensor:
     return torch.max(input_, dim=1)[0]
 
 
-def cummax_pooling(input_: Tensor, mask: Tensor) -> Tensor:
-    return max_pooling(input_.cummax(dim=1), mask)
-
-
 def cls_pooling(input_: Tensor, mask: Tensor) -> Tensor:
     return input_[:, 0]
+
+
+def cum_mean_max_pooling(input_: Tensor, mask: Tensor) -> Tensor:
+    mask = mask.unsqueeze(dim=-1).float()
+    masked_input = torch.cumsum(input_ * mask, dim=1)
+    nonzeros = torch.clamp(mask.cumsum(dim=1), min=1e-9)
+
+    return torch.max(masked_input / nonzeros, dim=1)[0]
